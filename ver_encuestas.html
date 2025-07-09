@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Ver Encuestas</title>
+</head>
+<body>
+    <center>
+        <h1>Encuestas Guardadas</h1>
+        <div id="datos"></div>
+        <br>
+        <button onclick="borrarTodo()">🗑️ Borrar todas las encuestas</button>
+        <p><a href="formulario.html">← Volver al formulario</a></p>
+    </center>
+
+    <script>
+        const contenedor = document.getElementById("datos");
+
+        function mostrarEncuestas() {
+            const encuestas = JSON.parse(localStorage.getItem("encuestas")) || [];
+
+            contenedor.innerHTML = "";
+
+            if (encuestas.length === 0) {
+                contenedor.innerHTML = "<p>No hay encuestas guardadas.</p>";
+                return;
+            }
+
+            encuestas.forEach((persona, index) => {
+                contenedor.innerHTML += `
+                    <div style="border:1px solid #ccc; padding:10px; margin:10px; max-width:300px;">
+                        <p><b>${index + 1}.</b> ${persona.nombre} ${persona.apellido}, ${persona.edad} años<br>
+                        Género: ${persona.genero}</p>
+                        <button onclick="borrarUna(${index})">❌ Borrar esta</button>
+                    </div>
+                `;
+            });
+        }
+
+        function borrarUna(index) {
+            let encuestas = JSON.parse(localStorage.getItem("encuestas")) || [];
+            encuestas.splice(index, 1); // quitar 1 elemento en la posición 'index'
+            localStorage.setItem("encuestas", JSON.stringify(encuestas));
+            mostrarEncuestas(); // recargar la lista
+        }
+
+        function borrarTodo() {
+            if (confirm("¿Estás seguro de que quieres borrar todas las encuestas?")) {
+                localStorage.removeItem("encuestas");
+                mostrarEncuestas();
+            }
+        }
+
+        // Mostrar al cargar
+        mostrarEncuestas();
+    </script>
+</body>
+</html>

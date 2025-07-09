@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario de Encuesta</title>
+</head>
+<body>
+    <center>
+        <h1>Formulario de Encuesta</h1>
+        <form id="formulario">
+            <label>Nombre:</label><br>
+            <input type="text" name="nombre" required><br><br>
+
+            <label>Apellido:</label><br>
+            <input type="text" name="apellido" required><br><br>
+
+            <label>Edad:</label><br>
+            <input type="number" name="edad" required><br><br>
+
+            <label>Contraseña:</label><br>
+            <input type="password" name="password" required><br><br>
+
+            <label>Género:</label><br>
+            <input type="radio" name="genero" value="Masculino" required> Masculino<br>
+            <input type="radio" name="genero" value="Femenino"> Femenino<br>
+            <input type="radio" name="genero" value="Croissant"> Croissant<br><br>
+
+            <button type="submit">Enviar</button>
+        </form>
+    </center>
+
+    <script>
+        const formulario = document.getElementById("formulario");
+
+        formulario.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const datos = {
+                nombre: formulario.nombre.value,
+                apellido: formulario.apellido.value,
+                edad: formulario.edad.value,
+                password: formulario.password.value,
+                genero: formulario.genero.value
+            };
+
+            let encuestas = JSON.parse(localStorage.getItem("encuestas")) || [];
+            encuestas.push(datos);
+            localStorage.setItem("encuestas", JSON.stringify(encuestas));
+
+            // Redirigir a otra página
+            window.location.href = "gracias.html";
+        });
+    </script>
+</body>
+</html>
